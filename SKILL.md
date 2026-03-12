@@ -48,9 +48,9 @@ Gemini is powered by Google models with their own knowledge cutoffs and limitati
 ### When Gemini is Wrong
 1. State your disagreement clearly to the user
 2. Provide evidence (your own knowledge, web search, docs)
-3. Optionally resume the Gemini session to discuss the disagreement. **Identify yourself as Claude** so Gemini knows it's a peer AI discussion:
+3. Optionally resume the Gemini session to discuss the disagreement. **Identify yourself** so Gemini knows it's a peer AI discussion:
    ```bash
-   gemini --resume -p "This is Claude (<your current model name>) following up. I disagree with [X] because [evidence]. What's your take on this?"
+   gemini --resume -p "This is <your agent name> following up. I disagree with [X] because [evidence]. What's your take on this?"
    ```
 4. Frame disagreements as discussions, not corrections - either AI could be wrong
 5. Let the user decide how to proceed if there's genuine ambiguity
