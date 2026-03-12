@@ -6,7 +6,7 @@ description: Use when the user asks to run Gemini CLI (gemini, gemini resume) or
 # Gemini Skill Guide
 
 ## Running a Task
-1. Ask the user (via `AskUserQuestion`) which model to run (`gemini-3-pro-preview`, `gemini-3-flash-preview`, `gemini-2.5-pro`, `gemini-2.5-flash`, or `gemini-2.5-flash-lite`) AND which approval mode to use (`default`, `auto_edit`, or `yolo`) in a **single prompt with two questions**.
+1. Ask the user (via `AskUserQuestion`) which model to run (`gemini-3.1-pro-preview` or `gemini-3-flash-preview`) AND which approval mode to use (`default`, `auto_edit`, or `yolo`) in a **single prompt with two questions**.
 2. Select the sandbox mode required for the task; default to `--sandbox` unless the task needs unrestricted access.
 3. Assemble the command with the appropriate options:
    - `-m, --model <MODEL>`
