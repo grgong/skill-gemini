@@ -6,12 +6,11 @@ description: Use when the user asks to run Gemini CLI (gemini, gemini resume) or
 # Gemini Skill Guide
 
 ## Running a Task
-1. Ask the user (via `AskUserQuestion`) which model to run (e.g. `gemini-3.1-pro-preview`, `gemini-3-flash-preview` — verify current IDs with `gemini --list-models` as preview model names rotate) AND which approval mode to use (`default`, `auto_edit`, or `yolo`) in a **single prompt with two questions**.
-2. Use the user's choices. If the user does not specify an approval mode, default to `--sandbox` with `--approval-mode default` for read-only analysis and `--approval-mode auto_edit` for edit tasks.
+1. Ask the user which model to run (e.g. `gemini-3.1-pro-preview`, `gemini-3-flash-preview` — verify current IDs with `gemini --list-models` as preview model names rotate) AND which approval mode to use (`default`, `auto_edit`, or `yolo`) in a **single prompt with two questions**.
+2. Use the user's choices. If the user does not specify an approval mode, default to `--approval-mode default` for read-only analysis and `--approval-mode auto_edit` for edit tasks.
 3. Assemble the command with the appropriate options:
    - `-m, --model <MODEL>`
-   - `--sandbox` (enable sandboxing)
-   - `--yolo` (auto-approve all tool calls — implies no sandbox; use only when user requests)
+   - `--yolo` (auto-approve all tool calls; use only when user requests)
    - `--approval-mode <default|auto_edit>` (ignored when `--yolo` is set)
    - `--include-directories <DIR>` (additional workspace directories)
    - `-p "your prompt here"` (non-interactive prompt, final positional argument)
@@ -20,17 +19,18 @@ description: Use when the user asks to run Gemini CLI (gemini, gemini resume) or
 6. **After Gemini completes**, inform the user: "You can resume this Gemini session at any time by saying 'gemini resume' or asking me to continue with additional analysis or changes."
 
 ### Quick Reference
-| Use case | Sandbox mode | Key flags |
-| --- | --- | --- |
-| Read-only review or analysis | `--sandbox` | `--sandbox -m <MODEL> -p "prompt"` |
-| Apply local edits (auto-approve edits) | `--sandbox` | `--sandbox --approval-mode auto_edit -m <MODEL> -p "prompt"` |
-| Full auto-approve (YOLO mode) | no sandbox | `--yolo -m <MODEL> -p "prompt"` (implies no sandbox, auto-approves all) |
-| Resume recent session | Inherited | `gemini --resume` |
-| Include extra directories | Match task | `--include-directories <DIR> -m <MODEL> -p "prompt"` |
+| Use case | Key flags |
+| --- | --- |
+| Read-only review or analysis | `-m <MODEL> -p "prompt"` |
+| Read-only, plan-only approval | `--approval-mode plan -m <MODEL> -p "prompt"` |
+| Apply local edits (auto-approve edits) | `--approval-mode auto_edit -m <MODEL> -p "prompt"` |
+| Full auto-approve (YOLO mode) | `--yolo -m <MODEL> -p "prompt"` (auto-approves all) |
+| Resume recent session | `gemini --resume` |
+| Include extra directories | `--include-directories <DIR> -m <MODEL> -p "prompt"` |
 
 ## Following Up
-- After every `gemini` command, immediately use `AskUserQuestion` to confirm next steps, collect clarifications, or decide whether to resume with `gemini --resume`.
-- Restate the chosen model, approval mode, and sandbox setting when proposing follow-up actions.
+- After every `gemini` command, immediately ask the user to confirm next steps, collect clarifications, or decide whether to resume with `gemini --resume`.
+- Restate the chosen model and approval mode when proposing follow-up actions.
 
 ## Critical Evaluation of Gemini Output
 
@@ -58,13 +58,12 @@ Gemini is powered by Google models with their own knowledge cutoffs and limitati
 ## Environment Variables
 - `GEMINI_API_KEY` - API authentication key (required if not using Google Cloud auth)
 - `GEMINI_MODEL` - Override default model
-- `GEMINI_SANDBOX` - Enable/configure sandboxing
 - `GOOGLE_CLOUD_PROJECT` - GCP project ID (for Vertex AI)
 
 ## Error Handling
 - Stop and report failures whenever `gemini --version` or a `gemini` command exits non-zero; request direction before retrying.
-- Before you use high-impact flags (`--yolo`, no sandbox) ask the user for permission using AskUserQuestion unless it was already given.
-- When output includes warnings or partial results, summarize them and ask how to adjust using `AskUserQuestion`.
+- Before you use high-impact flags (`--yolo`) ask the user for permission unless it was already given.
+- When output includes warnings or partial results, summarize them and ask the user how to adjust.
 - Note: Gemini CLI does not currently have a built-in spending cap (unlike Claude's `--max-budget-usd`). For long-running tasks, monitor usage and consider wrapping the command with `timeout` to prevent runaway sessions.
 
 ## Handling Large Input/Output
