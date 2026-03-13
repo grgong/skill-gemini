@@ -6,8 +6,8 @@ description: Use when the user asks to run Gemini CLI (gemini, gemini resume) or
 # Gemini Skill Guide
 
 ## Running a Task
-1. Using your internal structured multiple-choice function, ask the user which model to run (`gemini-3.1-pro-preview` or `gemini-3-flash-preview`) AND which approval mode to use (`default`, `auto_edit`, or `yolo`) in a **single prompt with two questions**.
-2. Use the user's choices. If the user does not specify an approval mode, default to `--approval-mode default` for read-only analysis and `--approval-mode auto_edit` for edit tasks.
+1. Using your internal structured multiple-choice function, ask the user which model to run (`gemini-3.1-pro-preview` or `gemini-3-flash-preview`).
+2. Determine the approval mode from the **Quick Reference** table below based on the task type — do **not** ask the user unless they have explicitly specified an approval mode. Defaults: `--approval-mode default` for read-only analysis, `--approval-mode auto_edit` for edit tasks. `--yolo` requires explicit user permission.
 3. Assemble the command with the appropriate options:
    - `-m, --model <MODEL>`
    - `--yolo` (auto-approve all tool calls; use only when user requests)
