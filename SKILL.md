@@ -1,6 +1,6 @@
 ---
 name: gemini
-description: Use when the user asks to run Gemini CLI (gemini, gemini resume) or references Google Gemini for code analysis, refactoring, or automated editing
+description: Use when the user asks to run Gemini CLI (gemini, gemini resume) for a second opinion, code review, or cross-agent collaboration
 ---
 
 # Gemini Skill Guide
